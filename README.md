@@ -85,5 +85,5 @@ Sample Superstore Dataset
 
 ## Author
 
-Project Business Intelligence & Data Storytelling  
-oleh [Nama Kamu]
+Project Data Storytelling  
+oleh Fivediniar Edra Primauldina
