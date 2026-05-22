@@ -215,11 +215,11 @@
                                 <span class="text-xs font-bold text-rose-500 uppercase tracking-wider"> Tension
                                     Building</span>
                                 <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1 leading-snug">Krisis
-                                    Finansial Furniture
-                                    Terjadi Sepanjang Tahun, Mencapai Titik Terparah di Bulan Mei</h2>
-                                <p class="text-xs text-slate-500 mt-1">Tren margin laba bersih berjalan bulanan
-                                    dibandingkan
-                                    ambang batas aman perusahaan.</p>
+                                    Krisis Profitabilitas Furniture
+                                    Menunjukkan Fluktuasi Margin Sepanjang Tahun</h2>
+                                <p class="text-xs text-slate-500 mt-1">Target profit margin minimum perusahaan
+                                    ditetapkan sebesar 15% sebagai batas operasional sehat industri retail furniture.
+                                </p>
                             </div>
                             <div class="h-80 mt-6"><canvas id="chartTension"></canvas></div>
                             <div id="tensionInsight"
@@ -265,26 +265,35 @@
                             <div
                                 class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
 
+                                <!-- HEADER -->
                                 <div>
+
                                     <span class="text-xs font-bold text-rose-500 uppercase tracking-wider">
                                         Climax / Root-Cause 2
                                     </span>
 
                                     <h2 class="text-base font-bold text-slate-900 dark:text-white mt-1 leading-snug">
-                                        Kebijakan Diskon Di Atas 20%
-                                        Secara Ilmiah Merusak Profit Produk
+                                        Profit Margin Mulai Kolaps Saat Diskon Melebihi Ambang 20%
                                     </h2>
+
+                                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                                        Korelasi antara tingkat diskon dan profit margin rata-rata Furniture.
+                                    </p>
+
                                 </div>
 
-                                <!-- GRAFIK -->
-                                <div class="h-64 mt-4">
+                                <!-- CHART -->
+                                <div class="h-72 mt-5">
+
                                     <canvas id="chartDiscountImpact"></canvas>
+
                                 </div>
 
-                                <!-- INSIGHT DINAMIS -->
+                                <!-- INSIGHT -->
                                 <p id="discountInsight"
                                     class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg mt-4 border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 leading-relaxed transition-colors duration-300">
                                 </p>
+
                             </div>
 
                         </div>
@@ -424,11 +433,58 @@
     </div>
     </section>
 
+    <!-- ========================================== -->
+    <!-- WATERFALL SECTION -->
+    <!-- ========================================== -->
+
+    <section id="page-waterfall" class="space-y-3 pt-0 max-w-[1225px] mx-auto">
+
+        <div
+            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+
+            <!-- HEADER -->
+            <div>
+
+                <span class="text-xs font-bold text-cyan-500 uppercase tracking-wider">
+                    Profit Leakage Flow
+                </span>
+
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                    Bagaimana Revenue Furniture Terkikis Menjadi Profit Tipis
+                </h2>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Simulasi aliran penurunan profit akibat diskon, region bermasalah,
+                    dan tekanan operasional.
+                </p>
+
+            </div>
+
+            <!-- CHART -->
+            <div class="bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 border border-slate-200 dark:border-slate-700">
+
+                <div class="h-96">
+
+                    <canvas id="chartWaterfall"></canvas>
+
+                </div>
+
+            </div>
+
+            <!-- INSIGHT -->
+            <div id="waterfallInsight"
+                class="bg-cyan-50 dark:bg-cyan-950/20 border border-cyan-200 dark:border-cyan-900 p-4 rounded-xl text-xs text-cyan-700 dark:text-cyan-300 border-l-4 border-cyan-500 leading-relaxed">
+
+            </div>
+
+        </div>
+
+    </section>
 
     <!-- ========================================== -->
-    <!-- HALAMAN 6: RENCANA AKSI (RESOLUTION) -->
+    <!-- HALAMAN 7: RENCANA AKSI (RESOLUTION) -->
     <!-- ========================================== -->
-    <section id="page-resolution" class="space-y-3 pt-0 max-w-[1225px] mx-auto">
+    <section id="page-resolution" class="space-y-3 pt-6 max-w-[1225px] mx-auto">
 
         <div
             class="bg-white dark:bg-slate-900 text-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
@@ -474,6 +530,7 @@
             2023: {
 
                 setupRevenue: [420000, 380000, 312480],
+
                 setupMargin: [38.2, 28.5, 8.9],
 
                 tension: [
@@ -485,12 +542,19 @@
 
                 discount: [18.5, 11.2, -5.4, -22.1],
 
-                region: [18400, 4100, -3200, -8500]
+                // PROFIT REGION ASLI
+                region: [
+                    3183.7983,   // West
+                    4000.5794,   // South
+                    -194.5867,   // East
+                    -1105.2241   // Central
+                ]
             },
 
             2024: {
 
                 setupRevenue: [450000, 400000, 330000],
+
                 setupMargin: [40.5, 30.2, 12.4],
 
                 tension: [
@@ -502,12 +566,19 @@
 
                 discount: [20.1, 13.5, -2.5, -18.2],
 
-                region: [22000, 5200, -1200, -5000]
+                // PROFIT REGION ASLI
+                region: [
+                    3348.1058,
+                    208.6064,
+                    -45.7082,
+                    -231.0373
+                ]
             },
 
             2025: {
 
                 setupRevenue: [470000, 420000, 350000],
+
                 setupMargin: [42.2, 31.5, 15.2],
 
                 tension: [
@@ -519,12 +590,19 @@
 
                 discount: [22.4, 15.1, 2.1, -10.5],
 
-                region: [26000, 8500, 1100, -2500]
+                // PROFIT REGION ASLI
+                region: [
+                    2891.5173,
+                    3146.4163,
+                    1431.2236,
+                    -252.9345
+                ]
             },
 
             2026: {
 
                 setupRevenue: [520000, 450000, 390000],
+
                 setupMargin: [45.1, 34.4, 18.9],
 
                 tension: [
@@ -536,24 +614,56 @@
 
                 discount: [25.0, 18.2, 4.5, -5.0],
 
-                region: [32000, 12000, 3500, 1000]
+                // PROFIT REGION ASLI
+                region: [
+                    2892.83,
+                    -584.396,
+                    2253.8161,
+                    -1213.0108
+                ]
             },
 
             all: {
 
-                setupRevenue: [1860000, 1650000, 1382480],
-                setupMargin: [41.5, 31.4, 13.8],
+                setupRevenue: [
+                    1860000,
+                    1650000,
+                    1382480
+                ],
+
+                setupMargin: [
+                    41.5,
+                    31.4,
+                    13.8
+                ],
 
                 tension: [
                     1.0, 3.9, 4.3, 5.2, 5.9, 4.5,
                     4.1, 2.6, 5.0, 5.5, 6.1, 6.5
                 ],
 
-                climax: [114400, 65200, -7600, -41500],
+                climax: [
+                    114400,
+                    65200,
+                    -7600,
+                    -41500
+                ],
 
-                discount: [21.5, 14.5, -0.8, -13.9],
+                discount: [
+                    21.5,
+                    14.5,
+                    -0.8,
+                    -13.9
+                ],
 
-                region: [98600, 29800, -1800, -15200]
+                // TOTAL PROFIT REGION HISTORIS
+                region: [
+
+                    12316.2514,   // West
+                    6771.2061,    // South
+                    3444.7448,    // East
+                    -2802.2067    // Central
+                ]
             }
         };
 
@@ -820,27 +930,201 @@
             }
         });
 
-        // CHART 4: DISCOUNT IMPACT
-        const ctxDiscount = document.getElementById('chartDiscountImpact').getContext('2d');
+        // ==========================================
+        // CHART 4: DISCOUNT COLLAPSE
+        // CONNECTED SCATTER / BASIN LINE
+        // ==========================================
+
+        const ctxDiscount =
+            document.getElementById('chartDiscountImpact')
+                .getContext('2d');
+
+        const gradientDiscount =
+            ctxDiscount.createLinearGradient(0, 0, 0, 320);
+
+        gradientDiscount.addColorStop(
+            0,
+            'rgba(239,68,68,0.22)'
+        );
+
+        gradientDiscount.addColorStop(
+            1,
+            'rgba(239,68,68,0.02)'
+        );
+
         const chartDiscount = new Chart(ctxDiscount, {
+
             type: 'line',
+
             data: {
-                labels: ['Diskon Lemah (0-10%)', 'Diskon Sedang (10-20%)', 'Diskon Kuat (20-30%)', 'Diskon Ekstrem (>35%)'],
+
+                labels: [
+
+                    '0–10%',
+                    '10–20%',
+                    '20–30%',
+                    '>35%'
+
+                ],
+
                 datasets: [{
-                    label: 'Rata-rata Profit Margin (%)',
+
+                    label: 'Average Profit Margin (%)',
+
                     data: dashboardData[2025].discount,
+
                     borderColor: '#94a3b8',
-                    backgroundColor: '#ef4444',
-                    pointBackgroundColor: ['#10b981', '#10b981', '#ef4444', '#ef4444'], // Hijau ke merah seiring bahaya diskon
+
+                    backgroundColor: gradientDiscount,
+
+                    fill: true,
+
+                    tension: 0.42,
+
+                    borderWidth: 2.5,
+
                     pointRadius: 8,
-                    borderWidth: 2
+
+                    pointHoverRadius: 10,
+
+                    pointBorderWidth: 2,
+
+                    pointBorderColor: '#ffffff',
+
+                    pointBackgroundColor: (context) => {
+
+                        const value = context.parsed.y;
+
+                        // NEGATIF
+                        if (value < 0) {
+                            return '#ef4444';
+                        }
+
+                        // RENDAH
+                        if (value < 5) {
+                            return '#f97316';
+                        }
+
+                        // SEHAT
+                        return '#10b981';
+                    }
                 }]
             },
+
             options: {
+
                 responsive: true,
+
                 maintainAspectRatio: false,
+
+                interaction: {
+
+                    mode: 'index',
+
+                    intersect: false
+                },
+
+                plugins: {
+
+                    legend: {
+
+                        position: 'top',
+
+                        labels: {
+
+                            usePointStyle: true,
+
+                            boxWidth: 10,
+
+                            padding: 18,
+
+                            color: '#94a3b8'
+                        }
+                    },
+
+                    tooltip: {
+
+                        backgroundColor: 'rgba(15,23,42,0.96)',
+
+                        borderColor: '#334155',
+
+                        borderWidth: 1,
+
+                        padding: 12,
+
+                        displayColors: false,
+
+                        callbacks: {
+
+                            title: function (context) {
+
+                                return `Discount Tier ${context[0].label}`;
+                            },
+
+                            label: function (context) {
+
+                                const value = context.parsed.y;
+
+                                const status =
+                                    value < 0
+                                        ? 'Negative Margin'
+                                        : value < 5
+                                            ? 'Low Margin'
+                                            : 'Healthy Margin';
+
+                                return `${status}: ${value}%`;
+                            }
+                        }
+                    }
+                },
+
                 scales: {
-                    y: { title: { display: true, text: 'Profit Margin Per Tingkatan (%)' } }
+
+                    y: {
+
+                        min: -50,
+
+                        max: 30,
+
+                        grid: {
+
+                            color: 'rgba(148,163,184,0.08)'
+                        },
+
+                        ticks: {
+
+                            color: '#94a3b8',
+
+                            callback: function (value) {
+
+                                return value + '%';
+                            }
+                        },
+
+                        title: {
+
+                            display: true,
+
+                            text: 'Profit Margin (%)',
+
+                            color: '#94a3b8',
+
+                            font: {
+                                weight: '600'
+                            }
+                        }
+                    },
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+                            color: '#94a3b8'
+                        }
+                    }
                 }
             }
         });
@@ -881,17 +1165,17 @@
                             return '#ef4444';
                         }
 
-                        // POSITIF BESAR
-                        if (value > 20000) {
+                        // PROFIT TINGGI
+                        if (value > 2500) {
                             return '#10b981';
                         }
 
-                        // POSITIF SEDANG
-                        if (value > 5000) {
+                        // PROFIT MENENGAH
+                        if (value > 1000) {
                             return '#22c55e';
                         }
 
-                        // POSITIF KECIL
+                        // PROFIT RENDAH
                         return '#f97316';
                     },
 
@@ -1019,6 +1303,135 @@
                             font: {
                                 weight: '600'
                             }
+                        }
+                    }
+                }
+            }
+        });
+
+        // ==========================================
+        // WATERFALL CHART
+        // ==========================================
+
+        const ctxWaterfall =
+            document.getElementById('chartWaterfall')
+                .getContext('2d');
+
+        const chartWaterfall = new Chart(ctxWaterfall, {
+
+            type: 'bar',
+
+            data: {
+
+                labels: [
+
+                    'Revenue',
+                    'Discount',
+                    'Operational Cost',
+                    'Region Loss',
+                    'Net Profit'
+
+                ],
+
+                datasets: [{
+
+                    label: 'Profit Flow ($)',
+
+                    data: [
+
+                        200000,
+                        -45000,
+                        -18000,
+                        -9000,
+                        7000
+
+                    ],
+
+                    backgroundColor: [
+
+                        '#0f172a',
+                        '#ef4444',
+                        '#f97316',
+                        '#dc2626',
+                        '#10b981'
+
+                    ],
+
+                    borderRadius: 10,
+
+                    borderSkipped: false,
+
+                    barThickness: 38,
+
+                    categoryPercentage: 0.55,
+
+                    barPercentage: 0.8
+
+                }]
+            },
+
+            options: {
+
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        backgroundColor: 'rgba(15,23,42,0.96)',
+
+                        borderColor: '#334155',
+
+                        borderWidth: 1,
+
+                        cornerRadius: 12,
+
+                        displayColors: false,
+
+                        callbacks: {
+
+                            label: function (context) {
+
+                                return '$' +
+                                    context.raw.toLocaleString();
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+
+                    y: {
+
+                        grid: {
+                            color: 'rgba(148,163,184,0.08)'
+                        },
+
+                        ticks: {
+
+                            color: '#94a3b8',
+
+                            callback: function (value) {
+
+                                return '$' +
+                                    value.toLocaleString();
+                            }
+                        }
+                    },
+
+                    x: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+                            color: '#cbd5e1'
                         }
                     }
                 }
@@ -1447,23 +1860,46 @@
                 );
 
             // =====================
-            // DISCOUNT
+            // DISCOUNT SCATTER
             // =====================
+
             const discountData = filteredData.filter(
                 row => row.ChartType === "DISCOUNT"
             );
 
-            chartDiscount.data.labels =
-                discountData.map(row =>
-                    row.Label
-                );
+            chartDiscount.data.datasets[0].data = [
 
-            chartDiscount.data.datasets[0].data =
-                discountData.map(row =>
-                    parseFloat(
-                        row.Margin.replace('%', '')
+                {
+                    x: 5,
+                    y: parseFloat(
+                        discountData[0]?.Margin.replace('%', '')
                     ) || 0
-                );
+                },
+
+                {
+                    x: 15,
+                    y: parseFloat(
+                        discountData[1]?.Margin.replace('%', '')
+                    ) || 0
+                },
+
+                {
+                    x: 25,
+                    y: parseFloat(
+                        discountData[2]?.Margin.replace('%', '')
+                    ) || 0
+                },
+
+                {
+                    x: 35,
+                    y: parseFloat(
+                        discountData[3]?.Margin.replace('%', '')
+                    ) || 0
+                }
+
+            ];
+
+            chartDiscount.update();
 
             // =====================
             // REGION (STATIC EXECUTIVE VIEW)
@@ -1511,9 +1947,11 @@
                 `;
 
                 document.getElementById("discountInsight").innerHTML = `
-                    <strong>Pola Diskon Historis:</strong>
-                    Diskon di atas 20% secara konsisten berkorelasi dengan margin negatif
-                    dan menjadi pemicu utama erosion profit Furniture.
+                    <strong>Multi-Year Discount Pattern:</strong>
+                    Secara historis, profit margin Furniture mulai mengalami penurunan signifikan
+                    ketika rata-rata diskon melewati ambang 20%.
+                    Pola ini menunjukkan bahwa strategi promosi agresif
+                    menjadi salah satu penyebab utama erosi profit jangka panjang.
                 `;
 
                 document.getElementById("regionInsight").innerHTML = `
@@ -1529,6 +1967,42 @@
                 return;
             }
 
+            // ==========================================
+            // WATERFALL UPDATE
+            // ==========================================
+
+            const revenue =
+                dashboardData[selectedYear]
+                    .setupRevenue[2];
+
+            const discountLoss =
+                -(revenue * 0.22);
+
+            const operationalLoss =
+                -(revenue * 0.09);
+
+            const regionLoss =
+                Math.min(
+                    ...dashboardData[selectedYear].region
+                ) * 5;
+
+            const netProfit =
+                revenue +
+                discountLoss +
+                operationalLoss +
+                regionLoss;
+
+            chartWaterfall.data.datasets[0].data = [
+
+                revenue,
+                discountLoss,
+                operationalLoss,
+                regionLoss,
+                netProfit
+
+            ];
+
+            chartWaterfall.update();
 
             // SETUP
             document.getElementById("setupInsight").innerHTML = `
@@ -1582,13 +2056,32 @@
                         : min
             );
 
-            document.getElementById("discountInsight").innerHTML = `
-                <strong>Dampak Diskon:</strong>
-                Diskon kategori
-                <b>${worstDiscount.Label}</b>
-                memberikan margin terburuk
-                <b>${worstDiscount.Margin}</b>.
-            `;
+            // ==========================
+            // INSIGHT DINAMIS
+            // ==========================
+
+            if (selectedYear === "all") {
+
+                document.getElementById("discountInsight").innerHTML = `
+                <strong>Multi-Year Discount Pattern:</strong>
+                Secara historis, profit margin Furniture mulai mengalami penurunan signifikan
+                ketika rata-rata diskon melewati ambang 20%.
+                Pola ini menunjukkan bahwa strategi promosi agresif
+                menjadi salah satu penyebab utama erosi profit jangka panjang.
+                `;
+
+            } else {
+
+                document.getElementById("discountInsight").innerHTML = `
+                    <strong>Discount Impact:</strong>
+                    Margin terburuk terjadi pada kategori diskon
+                    <b>${worstDiscount.Label}</b>
+                    dengan profit margin sebesar
+                    <b>${worstDiscount.Margin}</b>.
+                    Hal ini menunjukkan bahwa promosi agresif
+                    mulai menggerus profitabilitas Furniture secara langsung.
+                `;
+            }
 
             // REGION
             const regionLabels = [
@@ -1624,6 +2117,17 @@
                     <b>$${Number(worstRegion.Profit).toLocaleString()}</b>.
                     Perlu evaluasi distribusi dan strategi diskon.
                 </p>
+            `;
+
+            document.getElementById(
+                'waterfallInsight'
+            ).innerHTML = `
+
+                <strong>Profit Leakage Flow:</strong>
+                Revenue Furniture terlihat besar,
+                namun profit terkikis signifikan akibat
+                diskon agresif, tekanan operasional,
+                dan kerugian regional.
             `;
 
             // RESOLUTION
