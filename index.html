@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superstore Executive Insights — Furniture Profitability Analysis</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .nav-item.active {
+            background: #fff1f2;
+            color: #be123c;
+            border-left: 4px solid #e11d48;
+            font-weight: 600;
+        }
+
+        .dark .nav-item.active {
+            background: rgba(225, 29, 72, 0.15);
+            color: #fda4af;
+            border-left: 4px solid #fb7185;
+        }
+
+        .dark .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-item:hover {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 relative overflow-x-hidden">
+
+    <div
+        class="absolute top-0 left-1/4 w-96 h-96 bg-rose-400/10 dark:bg-rose-500/5 rounded-full blur-3xl pointer-events-none z-0">
+    </div>
+    <div
+        class="absolute top-1/3 right-1/4 w-[500px] h-[500px] bg-emerald-400/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none z-0">
+    </div>
+    <div
+        class="absolute bottom-10 left-10 w-80 h-80 bg-blue-400/10 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none z-0">
+    </div>
+
+    <div class="min-h-screen relative z-10">
+        <!-- WRAPPER UTAMA -->
+        <div class="min-h-screen">
+
+            <!-- KONTEN AREA KANAN (HEADER + ISI DATA) -->
+            <div class="w-full">
+
+                <!-- ========================================== -->
+                <!-- 2. TOP HEADER -->
+                <!-- ========================================== -->
+                <header
+                    class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+
+                    <div
+                        class="max-w-7xl mx-auto px-6 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+
+                        <!-- LEFT -->
+                        <div class="min-w-0">
+
+                            <h1
+                                class="text-lg md:text-xl font-bold text-slate-900 dark:text-white tracking-tight truncate">
+
+                                Superstore Executive Insights — Paradoks Profitabilitas Furniture: Omset Dominan, tapi
+                                Rasio Keuntungan Selalu Terendah
+
+                            </h1>
+
+                        </div>
+
+                        <!-- RIGHT -->
+                        <div class="flex items-center gap-3 text-sm">
+
+                            <!-- DARK MODE -->
+                            <button id="themeToggle"
+                                class="px-3 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-300 shadow-sm">
+
+                                🌙 Dark
+
+                            </button>
+
+                            <!-- YEAR -->
+                            <div class="flex items-center gap-2">
+
+                                <span class="text-slate-500 dark:text-slate-400 font-medium">
+
+                                    Periode:
+
+                                </span>
+
+                                <select id="yearFilter"
+                                    class="bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 outline-none shadow-sm">
+
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025" selected>2025</option>
+                                    <option value="2026">2026</option>
+                                    <option value="all">Semua Tahun</option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </header>
+
+                <!-- ========================================== -->
+                <!-- 3. KONTEN HALAMAN (SCROLLABLE) -->
+                <!-- ========================================== -->
+                <main class="max-w-7xl mx-auto p-6 md:p-8 space-y-8">
+
+                    <!-- ========================================== -->
+                    <!-- HALAMAN 1: RINGKASAN EKSEKUTIF -->
+                    <!-- ========================================== -->
+                    <section id="page-overview" class="space-y-4">
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+                            <div>
+                                <h3 class="text-rose-600 font-semibold text-xs uppercase tracking-wider">Latar Belakang
+                                    Studi Kasus</h3>
+                                <h2 id="overviewTitle" class="text-2xl font-bold text-slate-900 dark:text-white mt-1">
+                                </h2>
+                            </div>
+
+                            <p id="overviewDescription"
+                                class="text-slate-600 dark:text-slate-300 text-sm md:text-base leading-relaxed">
+                            </p>
+
+                            <div class="space-y-2 pt-2">
+                                <h4 id="kpiSectionTitle"
+                                    class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                                    Key Performance Indicators — Furniture
+                                </h4>
+                                <div id="kpiContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                                <div
+                                    class="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-inner transition-colors duration-300">
+                                    <span class="font-bold text-slate-700 dark:text-white block mb-2">📌 SETUP
+                                        (Konteks)</span>
+                                    <p id="setupBox" class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+                                    </p>
+                                </div>
+                                <div
+                                    class="bg-rose-50/60 dark:bg-rose-950/20 p-5 rounded-xl border border-rose-200 dark:border-rose-900 shadow-inner transition-colors duration-300">
+                                    <span class="font-bold text-slate-700 dark:text-white block mb-2">💥 CONFLICT
+                                        (Masalah)</span>
+                                    <p id="conflictBox" class="text-rose-600 text-xs leading-relaxed"></p>
+                                </div>
+                                <div
+                                    class="bg-emerald-50 dark:bg-emerald-950/20 p-5 rounded-xl border border-emerald-200 dark:border-emerald-900 shadow-inner transition-colors duration-300">
+                                    <span class="font-bold text-emerald-700 block mb-2">🚀 RESOLUTION (Solusi)</span>
+                                    <p id="resolutionBox" class="text-emerald-600 text-xs leading-relaxed"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ========================================== -->
+                    <!-- HALAMAN 2: PERFORMA SEGMEN (SETUP) -->
+                    <!-- ========================================== -->
+                    <section id="page-setup" class="space-y-3">
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider"> Setup
+                                    & Hook</span>
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1 leading-snug">Furniture
+                                    Menyumbang 32%
+                                    Omset, Namun Mengamankan Rasio Keuntungan Paling Buncit</h2>
+                                <p class="text-xs text-slate-500 mt-1">Perbandingan makro antar segmen produk utama
+                                    sepanjang tahun berjalan.</p>
+                            </div>
+                            <div class="h-80 mt-6"><canvas id="chartSetup"></canvas></div>
+                            <div id="setupInsight"
+                                class="bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl mt-6 text-xs text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 border-l-4 border-l-slate-500 leading-relaxed transition-colors duration-300">
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ========================================== -->
+                    <!-- HALAMAN 3: TREN BULANAN (TENSION) -->
+                    <!-- ========================================== -->
+                    <section id="page-tension" class="space-y-3">
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs font-bold text-rose-500 uppercase tracking-wider"> Tension
+                                    Building</span>
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1 leading-snug">Krisis
+                                    Finansial Furniture
+                                    Terjadi Sepanjang Tahun, Mencapai Titik Terparah di Bulan Mei</h2>
+                                <p class="text-xs text-slate-500 mt-1">Tren margin laba bersih berjalan bulanan
+                                    dibandingkan
+                                    ambang batas aman perusahaan.</p>
+                            </div>
+                            <div class="h-80 mt-6"><canvas id="chartTension"></canvas></div>
+                            <div id="tensionInsight"
+                                class="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 p-4 rounded-xl mt-6 text-xs text-rose-700 border-l-4 border-rose-500 leading-relaxed">
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <!-- ========================================== -->
+                    <!-- HALAMAN 4: AKAR MASALAH (CLIMAX) -->
+                    <!-- ========================================== -->
+                    <section id="page-climax" class="space-y-3">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                            <!-- LEFT: SUB CATEGORY -->
+                            <div
+                                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
+
+                                <div>
+                                    <span class="text-xs font-bold text-rose-500 uppercase tracking-wider">
+                                        Climax / Root-Cause 1
+                                    </span>
+
+                                    <h2 class="text-base font-bold text-slate-900 dark:text-white mt-1 leading-snug">
+                                        Sub-Kategori 'Tables' & 'Bookcases'
+                                        Menguras Seluruh Profit Hasil Penjualan
+                                    </h2>
+                                </div>
+
+                                <!-- GRAFIK -->
+                                <div class="h-64 mt-4">
+                                    <canvas id="chartClimaxSubCat"></canvas>
+                                </div>
+
+                                <!-- INSIGHT DINAMIS -->
+                                <p id="climaxInsight"
+                                    class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg mt-4 border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 leading-relaxed transition-colors duration-300">
+                                </p>
+                            </div>
+
+                            <!-- RIGHT: DISCOUNT -->
+                            <div
+                                class="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col justify-between">
+
+                                <div>
+                                    <span class="text-xs font-bold text-rose-500 uppercase tracking-wider">
+                                        Climax / Root-Cause 2
+                                    </span>
+
+                                    <h2 class="text-base font-bold text-slate-900 dark:text-white mt-1 leading-snug">
+                                        Kebijakan Diskon Di Atas 20%
+                                        Secara Ilmiah Merusak Profit Produk
+                                    </h2>
+                                </div>
+
+                                <!-- GRAFIK -->
+                                <div class="h-64 mt-4">
+                                    <canvas id="chartDiscountImpact"></canvas>
+                                </div>
+
+                                <!-- INSIGHT DINAMIS -->
+                                <p id="discountInsight"
+                                    class="text-xs text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-lg mt-4 border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 leading-relaxed transition-colors duration-300">
+                                </p>
+                            </div>
+
+                        </div>
+                    </section>
+
+
+                    <!-- ========================================== -->
+                    <!-- HALAMAN 5: ANALISIS WILAYAH (INSIGHT) -->
+                    <!-- ========================================== -->
+                    <section id="page-insight" class="space-y-3">
+
+                        <div
+                            class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+
+                            <!-- Header -->
+                            <div>
+                                <span class="text-xs font-bold text-amber-500 uppercase tracking-wider">
+                                    Deep-Dive Insight
+                                </span>
+
+                                <h2 class="text-xl font-bold text-slate-900 dark:text-white mt-1">
+                                    Analisis Regional Profit Furniture
+                                </h2>
+
+                                <p class="text-xs text-slate-500">
+                                    Pemetaan kontribusi profitabilitas regional khusus produk Furniture.
+                                </p>
+                            </div>
+
+                            <!-- Chart -->
+                            <div
+                                class="bg-slate-50 dark:bg-slate-800/40 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 transition-colors duration-300 space-y-5">
+
+                                <!-- Region Chart -->
+                                <div class="h-80">
+                                    <canvas id="chartRegionDrain"></canvas>
+                                </div>
+
+                                <!-- Executive Insight -->
+                                <div id="regionInsight"
+                                    class="text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-900/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 leading-relaxed transition-colors duration-300">
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="border-t border-slate-200 dark:border-slate-700 pt-4">
+
+                                    <div class="flex items-center justify-between mb-3">
+
+                                        <div>
+                                            <h3 class="text-sm font-bold text-slate-800 dark:text-white">
+                                                Worst Performing States
+                                            </h3>
+
+                                            <p class="text-xs text-slate-500 dark:text-slate-400">
+                                                State dengan kontribusi kerugian terbesar.
+                                            </p>
+                                        </div>
+
+                                        <span
+                                            class="text-[11px] px-2 py-1 rounded-full bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 font-semibold">
+                                            Dynamic by Year
+                                        </span>
+                                    </div>
+
+                                    <!-- Dynamic States -->
+                                    <div id="worstStates" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- COLLAPSIBLE TABLE -->
+                        <details
+                            class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm p-5 group transition-all duration-300">
+
+                            <!-- HEADER -->
+                            <summary class="flex items-center justify-between cursor-pointer list-none">
+
+                                <div>
+
+                                    <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-200">
+
+                                        Detailed Regional Performance Table
+
+                                    </h3>
+
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+
+                                        Klik untuk melihat detail historis regional.
+
+                                    </p>
+
+                                </div>
+
+                                <!-- ICON -->
+                                <div class="text-slate-400 group-open:rotate-180 transition-transform duration-300">
+
+                                    ▼
+
+                                </div>
+
+                            </summary>
+
+                            <!-- CONTENT -->
+                            <div class="overflow-x-auto mt-5">
+
+                                <table
+                                    class="w-full text-left border-collapse text-xs md:text-sm text-slate-700 dark:text-slate-300">
+
+                                    <thead>
+                                        <tr
+                                            class="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-300 dark:border-slate-600 font-semibold">
+
+                                            <th class="p-3">REGION</th>
+                                            <th class="p-3">FURNITURE REVENUE</th>
+                                            <th class="p-3">NET PROFIT</th>
+                                            <th class="p-3">MARGIN</th>
+                                            <th class="p-3">AVG DISCOUNT</th>
+                                            <th class="p-3">STATUS</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="regionTableBody" class="divide-y divide-slate-300 dark:divide-slate-600">
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </details>
+            </div>
+
+        </div>
+    </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- HALAMAN 6: RENCANA AKSI (RESOLUTION) -->
+    <!-- ========================================== -->
+    <section id="page-resolution" class="space-y-3 pt-0 max-w-[1225px] mx-auto">
+
+        <div
+            class="bg-white dark:bg-slate-900 text-slate-800 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+            <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+
+                <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider">
+                    Resolution & Final Call to Action
+                </span>
+
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">
+                    Rekomendasi Strategis Berdasarkan Temuan Data
+                </h2>
+
+                <p class="text-xs text-slate-500 mt-1">
+                    Strategi bisnis otomatis berubah sesuai data pada tahun yang dipilih.
+                </p>
+            </div>
+
+            <!-- INSIGHT DINAMIS -->
+            <div id="resolutionInsight" class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            </div>
+        </div>
+    </section>
+
+    </main>
+    </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT LOGIC NAVIGASI & INSTANSIASI CHART -->
+    <!-- ========================================== -->
+
+    <script>
+        // --- INSTANSIASI GRAFIK CHART.JS (SEMANTIK WARNA BENAR) ---
+
+        // ==========================================
+        // DATABASE DASHBOARD PER TAHUN
+        // ==========================================
+
+        const dashboardData = {
+
+            2023: {
+
+                setupRevenue: [420000, 380000, 312480],
+                setupMargin: [38.2, 28.5, 8.9],
+
+                tension: [
+                    -5.76, 4.40, 2.52, 3.65, 4.66, 1.96,
+                    2.98, 0.01, 5.15, -5.08, 3.29, 5.31
+                ],
+
+                climax: [22400, 11200, -4300, -16500],
+
+                discount: [18.5, 11.2, -5.4, -22.1],
+
+                region: [18400, 4100, -3200, -8500]
+            },
+
+            2024: {
+
+                setupRevenue: [450000, 400000, 330000],
+                setupMargin: [40.5, 30.2, 12.4],
+
+                tension: [
+                    2.1, 3.5, 4.0, 5.2, 4.7, 3.8,
+                    2.9, 1.5, 4.4, 5.0, 6.2, 5.8
+                ],
+
+                climax: [26000, 14000, -2000, -12000],
+
+                discount: [20.1, 13.5, -2.5, -18.2],
+
+                region: [22000, 5200, -1200, -5000]
+            },
+
+            2025: {
+
+                setupRevenue: [470000, 420000, 350000],
+                setupMargin: [42.2, 31.5, 15.2],
+
+                tension: [
+                    3.2, 2.8, 4.9, 5.5, 6.1, 5.9,
+                    4.8, 3.7, 4.4, 5.2, 6.0, 7.1
+                ],
+
+                climax: [30000, 18000, 1200, -9000],
+
+                discount: [22.4, 15.1, 2.1, -10.5],
+
+                region: [26000, 8500, 1100, -2500]
+            },
+
+            2026: {
+
+                setupRevenue: [520000, 450000, 390000],
+                setupMargin: [45.1, 34.4, 18.9],
+
+                tension: [
+                    4.5, 5.2, 6.0, 6.8, 7.0, 6.5,
+                    5.8, 5.1, 6.2, 7.0, 7.4, 8.0
+                ],
+
+                climax: [36000, 22000, 3500, -4000],
+
+                discount: [25.0, 18.2, 4.5, -5.0],
+
+                region: [32000, 12000, 3500, 1000]
+            },
+
+            all: {
+
+                setupRevenue: [1860000, 1650000, 1382480],
+                setupMargin: [41.5, 31.4, 13.8],
+
+                tension: [
+                    1.0, 3.9, 4.3, 5.2, 5.9, 4.5,
+                    4.1, 2.6, 5.0, 5.5, 6.1, 6.5
+                ],
+
+                climax: [114400, 65200, -7600, -41500],
+
+                discount: [21.5, 14.5, -0.8, -13.9],
+
+                region: [98600, 29800, -1800, -15200]
+            }
+        };
+
+        // ==========================================
+        // WORST STATES DATA
+        // ==========================================
+
+        const worstStatesData = {
+
+            2023: [
+                { state: 'Texas', value: -3360 },
+                { state: 'Ohio', value: -2140 },
+                { state: 'Colorado', value: -980 }
+            ],
+
+            2024: [
+                { state: 'Ohio', value: -2840 },
+                { state: 'Texas', value: -1930 },
+                { state: 'Illinois', value: -1100 }
+            ],
+
+            2025: [
+                { state: 'Texas', value: -3360 },
+                { state: 'Ohio', value: -1480 },
+                { state: 'Colorado', value: -920 }
+            ],
+
+            2026: [
+                { state: 'Texas', value: -4010 },
+                { state: 'Florida', value: -1820 },
+                { state: 'Illinois', value: -990 }
+            ]
+        };
+
+        // CHART 1: SETUP (EXECUTIVE STYLE)
+        const ctxSetup = document.getElementById('chartSetup').getContext('2d');
+
+        const chartSetup = new Chart(ctxSetup, {
+            data: {
+                labels: [
+                    'Technology',
+                    'Office Supplies',
+                    'Furniture (Fokus Utama)'
+                ],
+                datasets: [
+                    {
+                        type: 'bar',
+                        label: 'Revenue ($)',
+                        data: dashboardData[2025].setupRevenue,
+                        backgroundColor: [
+
+                            '#cbd5e1', // Technology
+
+                            '#94a3b8', // Office Supplies
+
+                            '#334155'  // Furniture (fokus utama)
+                        ],
+                        borderRadius: 12,
+                        barThickness: 70,
+                        yAxisID: 'y',
+                        order: 2
+                    },
+                    {
+                        type: 'line',
+                        label: 'Profit Margin (%)',
+                        data: dashboardData[2025].setupMargin,
+                        borderColor: '#ef4444',
+                        backgroundColor: '#ef4444',
+                        borderWidth: 2.5,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#ef4444',
+                        tension: 0.35,
+                        yAxisID: 'y1',
+                        order: 1
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 10,
+                            padding: 18
+                        }
+                    }
+                },
+
+                scales: {
+                    y: {
+                        position: 'left',
+                        grid: {
+                            color: 'rgba(148,163,184,0.12)'
+                        },
+                        ticks: {
+                            color: '#64748b'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Total Omset ($)'
+                        }
+                    },
+
+                    y1: {
+                        position: 'right',
+                        min: 0,
+                        max: 40,
+                        grid: {
+                            drawOnChartArea: false
+                        },
+                        ticks: {
+                            color: '#64748b'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Profit Margin (%)'
+                        }
+                    },
+
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // CHART 2: TENSION (Improved Storytelling)
+        const ctxTension = document.getElementById('chartTension').getContext('2d');
+
+        const chartTension = new Chart(ctxTension, {
+            type: 'line',
+            data: {
+                labels: [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+                    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+                ],
+                datasets: [
+                    {
+                        label: 'Furniture Profit Margin (%)',
+                        data: dashboardData[2025].tension,
+
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239,68,68,0.08)',
+                        fill: true,
+
+                        tension: 0.35,
+                        borderWidth: 3,
+
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        pointBorderWidth: 2,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#ef4444'
+                    },
+
+                    {
+                        label: 'Batas Laba Aman Perusahaan (15%)',
+                        data: [15, 15, 15, 15, 15, 15],
+
+                        borderColor: '#94a3b8',
+                        borderDash: [8, 6],
+                        borderWidth: 2,
+
+                        pointRadius: 0,
+                        fill: false
+                    }
+                ]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true
+                        }
+                    }
+                },
+
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+
+                scales: {
+                    y: {
+                        min: -4,
+                        max: 16, // threshold jadi tidak terlalu jauh
+                        grace: '5%',
+
+                        title: {
+                            display: true,
+                            text: 'Persentase Laba (%)'
+                        },
+
+                        grid: {
+                            color: 'rgba(148,163,184,0.15)'
+                        }
+                    },
+
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // CHART 3: CLIMAX (SUB-CATEGORY)
+        const ctxClimax = document.getElementById('chartClimaxSubCat').getContext('2d');
+        const chartClimax = new Chart(ctxClimax, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Chairs (Kursi)',
+                    'Furnishings',
+                    'Bookcases',
+                    'Tables (Meja)'
+                ],
+
+                datasets: [{
+
+                    label: 'Net Laba / Rugi Bersih ($)',
+
+                    data: dashboardData[2025].climax,
+
+                    backgroundColor: [
+
+                        '#ef4444', // Tables → rugi besar
+
+                        '#f97316', // Bookcases → warning
+
+                        '#22c55e', // Furnishings → profit
+
+                        '#10b981'  // Chairs → profit tertinggi
+                    ],
+
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { title: { display: true, text: 'Total Keuntungan Bersih ($)' } }
+                }
+            }
+        });
+
+        // CHART 4: DISCOUNT IMPACT
+        const ctxDiscount = document.getElementById('chartDiscountImpact').getContext('2d');
+        const chartDiscount = new Chart(ctxDiscount, {
+            type: 'line',
+            data: {
+                labels: ['Diskon Lemah (0-10%)', 'Diskon Sedang (10-20%)', 'Diskon Kuat (20-30%)', 'Diskon Ekstrem (>35%)'],
+                datasets: [{
+                    label: 'Rata-rata Profit Margin (%)',
+                    data: dashboardData[2025].discount,
+                    borderColor: '#94a3b8',
+                    backgroundColor: '#ef4444',
+                    pointBackgroundColor: ['#10b981', '#10b981', '#ef4444', '#ef4444'], // Hijau ke merah seiring bahaya diskon
+                    pointRadius: 8,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { title: { display: true, text: 'Profit Margin Per Tingkatan (%)' } }
+                }
+            }
+        });
+
+        // ==========================================
+        // CHART 5: REGION DRAIN (EXECUTIVE STYLE)
+        // ==========================================
+
+        const ctxRegion =
+            document.getElementById('chartRegionDrain')
+                .getContext('2d');
+
+        const chartRegion = new Chart(ctxRegion, {
+
+            type: 'bar',
+
+            data: {
+
+                labels: [
+                    'West Region',
+                    'South Region',
+                    'East Region',
+                    'Central Region'
+                ],
+
+                datasets: [{
+
+                    label: 'Net Profit Furniture ($)',
+
+                    data: dashboardData[2025].region,
+
+                    backgroundColor: (context) => {
+
+                        const value = context.raw;
+
+                        // NEGATIF
+                        if (value < 0) {
+                            return '#ef4444';
+                        }
+
+                        // POSITIF BESAR
+                        if (value > 20000) {
+                            return '#10b981';
+                        }
+
+                        // POSITIF SEDANG
+                        if (value > 5000) {
+                            return '#22c55e';
+                        }
+
+                        // POSITIF KECIL
+                        return '#f97316';
+                    },
+
+                    borderRadius: 10,
+                    borderSkipped: false,
+                    barThickness: 24
+                }]
+            },
+
+            options: {
+
+                indexAxis: 'y',
+
+                responsive: true,
+                maintainAspectRatio: false,
+
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 15,
+                        top: 10,
+                        bottom: 0
+                    }
+                },
+
+                plugins: {
+
+                    legend: {
+                        display: false
+                    },
+
+                    tooltip: {
+
+                        backgroundColor: 'rgba(15,23,42,0.96)',
+
+                        borderColor: '#334155',
+
+                        borderWidth: 1,
+
+                        cornerRadius: 14,
+
+                        padding: 14,
+
+                        displayColors: false,
+
+                        titleColor: '#ffffff',
+
+                        titleFont: {
+                            size: 13,
+                            weight: '700'
+                        },
+
+                        bodyColor: '#cbd5e1',
+
+                        bodyFont: {
+                            size: 12
+                        },
+
+                        callbacks: {
+
+                            // TITLE
+                            title: function (context) {
+
+                                return `📍 ${context[0].label}`;
+                            },
+
+                            // BODY
+                            label: function (context) {
+
+                                const value = context.raw;
+
+                                const status =
+                                    value < 0
+                                        ? 'Loss'
+                                        : 'Profit';
+
+                                return `${status}: $${value.toLocaleString()}`;
+                            }
+                        }
+                    },
+                },
+
+                scales: {
+
+                    x: {
+
+                        grid: {
+                            color: 'rgba(148,163,184,0.08)'
+                        },
+
+                        ticks: {
+
+                            color: '#94a3b8',
+
+                            callback: function (value) {
+
+                                return '$' + value.toLocaleString();
+                            }
+                        },
+
+                        title: {
+
+                            display: true,
+
+                            text: 'Net Profit / Loss ($)',
+
+                            color: '#94a3b8',
+
+                            font: {
+                                weight: '600'
+                            }
+                        }
+                    },
+
+                    y: {
+
+                        grid: {
+                            display: false
+                        },
+
+                        ticks: {
+
+                            color: '#cbd5e1',
+
+                            font: {
+                                weight: '600'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // ==========================================
+        // FILTER TAHUN DINAMIS
+        // ==========================================
+
+        document.getElementById('yearFilter')
+            .addEventListener('change', function () {
+
+                const selectedYear = this.value;
+
+                updateCharts(selectedYear);
+
+                updateDashboardOverview(selectedYear);
+
+            });
+
+        const executiveOverview = {
+            2023: {
+                title: "Paradoks Furniture 2023: Omset Dominan, tapi Profitabilitas Rentan",
+                description: "Dashboard interaktif ini menggunakan pendekatan <strong>Setup–Conflict–Resolution (SCR)</strong> untuk mengevaluasi profitabilitas segmen Furniture pada tahun <strong>2023</strong>. Fokus utama analisis adalah memahami mengapa revenue tinggi belum menghasilkan profit yang stabil di seluruh region.",
+                setup: "Furniture menghasilkan total revenue sekitar <strong>$162,125</strong> dengan profit bersih hanya <strong>$5,885</strong>. Walaupun West dan South mencetak profit positif, margin keuntungan rata-rata keseluruhan hanya bertahan di angka <strong>4.28%</strong>, jauh di bawah ekspektasi minimal bisnis.",
+                conflict: "Akar masalah utama (root cause) bersumber dari kebocoran profit di <strong>Central Region (-$1,105)</strong> akibat pemberian rata-rata diskon yang terlalu agresif sebesar <strong>33.68%</strong>. Kondisi ini diperparah oleh East Region yang mulai terseret ke margin negatif <strong>(-0.39%)</strong>.",
+                resolution: "<strong>1. Pricing Team:</strong> Batasi diskon maks di atas 20% pada Central dan East.<br><strong>2. Operation:</strong> Audit biaya distribusi.<br><strong>3. Sales:</strong> Pertahankan performa West dan South yang sehat. <em>(Target: mengembalikan kestabilan margin di kuartal mendatang)</em>.",
+                kpis: {
+                    title: "Performa Utama — Key Performance Indicators (KPIs) Furniture 2023",
+                    items: [
+                        {
+                            label: "Total Revenue",
+                            value: "$162,125",
+                            status: "neutral",
+                            note: "Baseline historis Furniture."
+                        },
+                        {
+                            label: "Total Profit",
+                            value: "$5,885",
+                            status: "neutral",
+                            note: "Masih tertolong West & South."
+                        },
+                        {
+                            label: "Average Margin",
+                            value: "4.28%",
+                            status: "danger",
+                            note: "Di bawah target ideal bisnis."
+                        },
+                        {
+                            label: "Average Discount",
+                            value: "18.21%",
+                            status: "warning",
+                            note: "Diskon agresif mulai menekan profit."
+                        }
+                    ]
+                }
+            },
+            2024: {
+                title: "Paradoks Furniture 2024: Volume Penjualan Bertambah, Kualitas Profit Melemah",
+                description: "Dashboard interaktif ini menggunakan pendekatan <strong>Setup–Conflict–Resolution (SCR)</strong> untuk mengevaluasi penurunan kualitas profit Furniture pada tahun <strong>2024</strong>, ketika pertumbuhan revenue tidak diikuti pertumbuhan profit yang sehat.",
+                setup: "Revenue Furniture meningkat menjadi sekitar <strong>$172,330</strong>, namun profit total turun drastis menjadi hanya <strong>$3,280</strong>. Hampir seluruh region mengalami pelemahan margin yang signifikan dan berada jauh di bawah target operasional perusahaan.",
+                conflict: "<strong>Central Region</strong> tetap menjadi pemicu utama tekanan dengan profit negatif <strong>(-$231)</strong> akibat kebijakan diskon tinggi <strong>27.39%</strong>. Kerentanan meluas karena East Region tertahan di titik impas <strong>(-0.08%)</strong> dan South hanya mengamankan margin tipis <strong>0.87%</strong>.",
+                resolution: "<strong>1. Pricing Team:</strong> Segera kurangi diskon agresif di region margin tipis.<br><strong>2. Logistics Team:</strong> Prioritaskan efisiensi logistik pada Central dan East.<br><strong>3. Product Manager:</strong> Evaluasi subkategori Furniture dengan revenue besar tetapi profit rendah.",
+                kpis: {
+                    title: "Performa Utama — Key Performance Indicators (KPIs) Furniture 2024",
+                    items: [
+                        {
+                            label: "Total Revenue",
+                            value: "$172,330",
+                            status: "success",
+                            note: "Revenue meningkat dari tahun sebelumnya."
+                        },
+                        {
+                            label: "Total Profit",
+                            value: "$3,280",
+                            status: "danger",
+                            note: "Profit turun signifikan."
+                        },
+                        {
+                            label: "Average Margin",
+                            value: "1.46%",
+                            status: "danger",
+                            note: "Margin terendah sepanjang periode."
+                        },
+                        {
+                            label: "Average Discount",
+                            value: "17.09%",
+                            status: "warning",
+                            note: "Diskon tetap tinggi di region kritis."
+                        }
+                    ]
+                }
+            },
+            2025: {
+                title: "Paradoks Furniture 2025: Omset Melejit $200K+, tapi Profit Terpuruk Paling Buncit",
+                description: "Dashboard interaktif ini menggunakan pendekatan <strong>Setup–Conflict–Resolution (SCR)</strong> untuk memahami mengapa Furniture tetap menghadapi tekanan profitabilitas meskipun revenue meningkat pada tahun <strong>2025</strong>.",
+                setup: "Furniture membukukan revenue impresif sebesar <strong>$200,980</strong> dengan profit <strong>$7,216</strong>. Walaupun West, South, dan East menunjukkan profit positif, margin keuntungan rata-rata masih berada di bawah ekspektasi performa bisnis.",
+                conflict: "<strong>Central Region</strong> kembali menjadi titik kritis pemicu bocornya profitabilitas dengan profit negatif <strong>(-$252)</strong> akibat pemberian rata-rata diskon tertinggi sebesar <strong>29.43%</strong>. Hambatan ini diperparah oleh East Region yang marginnya tertahan rendah di angka <strong>3.05%</strong>.",
+                resolution: "<strong>1. Pricing Team:</strong> Terapkan cap diskon maksimal 15–20% pada wilayah kritis.<br><strong>2. Sales & Marketing:</strong> Alihkan fokus investasi distribusi ke South dan West.<br><strong>3. Region Manager:</strong> Restrukturisasi strategi pricing di Central. <em>(Diproyeksikan mampu mendongkrak margin kembali sehat dalam 6 bulan)</em>.",
+                kpis: {
+                    title: "Performa Utama — Key Performance Indicators (KPIs) Furniture 2025",
+                    items: [
+                        {
+                            label: "Total Revenue",
+                            value: "$200,980",
+                            status: "success",
+                            note: "Kontributor revenue terbesar."
+                        },
+                        {
+                            label: "Total Profit",
+                            value: "$7,216",
+                            status: "neutral",
+                            note: "Profit membaik dibanding 2024."
+                        },
+                        {
+                            label: "Average Margin",
+                            value: "4.42%",
+                            status: "warning",
+                            note: "Belum mencapai target profit sehat."
+                        },
+                        {
+                            label: "Average Discount",
+                            value: "17.43%",
+                            status: "warning",
+                            note: "Anomali diskon masih tinggi."
+                        }
+                    ]
+                }
+            },
+            2026: {
+                title: "Paradoks Furniture 2026: Kebocoran Profit Bergeser, Distribusi Regional Semakin Tidak Merata",
+                description: "Dashboard interaktif ini menggunakan pendekatan <strong>Setup–Conflict–Resolution (SCR)</strong> untuk mengevaluasi perubahan pola profitabilitas Furniture pada tahun <strong>2026</strong>, ketika kebocoran profit mulai bergeser antar-region.",
+                setup: "Revenue Furniture meningkat ke angka <strong>$219,313</strong> dengan total profit hanya <strong>$3,349</strong>. Meskipun West dan East masih menopang profit positif, performa ini belum mampu mengompensasi kerugian di wilayah lain.",
+                conflict: "Kebocoran profit meluas secara kritis: <strong>South Region</strong> berbalik rugi menjadi <strong>-$584 (-1.53%)</strong>, sementara <strong>Central Region</strong> mencetak kerugian terdalam sebesar <strong>-$1,213</strong> akibat beban diskon tinggi yang mencapai <strong>29.15%</strong>.",
+                resolution: "<strong>1. Regional Auditor:</strong> Segera lakukan audit komprehensif terhadap profitabilitas regional.<br><strong>2. Pricing Team:</strong> Turunkan diskon ekstrem pada South dan Central.<br><strong>3. Sales Director:</strong> Alihkan fokus pertumbuhan ke West dan East yang stabil.",
+                kpis: {
+                    title: "Performa Utama — Key Performance Indicators (KPIs) Furniture 2026",
+                    items: [
+                        {
+                            label: "Total Revenue",
+                            value: "$219,313",
+                            status: "success",
+                            note: "Revenue tertinggi sepanjang periode."
+                        },
+                        {
+                            label: "Total Profit",
+                            value: "$3,349",
+                            status: "danger",
+                            note: "Profit kembali melemah."
+                        },
+                        {
+                            label: "Average Margin",
+                            value: "0.84%",
+                            status: "danger",
+                            note: "Margin nyaris stagnan."
+                        },
+                        {
+                            label: "Average Discount",
+                            value: "17.70%",
+                            status: "danger",
+                            note: "Tekanan diskon semakin tinggi."
+                        }
+                    ]
+                }
+            },
+            all: {
+                title: "Analisis Multi-Tahun: Pola Konsisten Finansial Furniture yang Lemah Profit",
+                description: "Analisis gabungan seluruh tahun menggunakan pendekatan <strong>Setup–Conflict–Resolution (SCR)</strong> menunjukkan pola konsisten bahwa Furniture memiliki revenue tinggi namun profitabilitas lemah.",
+                setup: "Secara historis, segmen Furniture terus menghasilkan revenue besar setiap tahunnya, menjadikannya penopang utama volume penjualan perusahaan namun selalu gagal mencapai target margin keuntungan.",
+                conflict: "Kebijakan diskon agresif yang berkepanjangan dan performa negatif yang kronis di wilayah tertentu (khususnya Central) menjadi <strong>akar masalah utama (root cause)</strong> terjadinya kebocoran profit secara struktural.",
+                resolution: "<strong>1. Executive Board:</strong> Terapkan strategi multi-year terpadu untuk merestrukturisasi batas diskon.<br><strong>2. Pricing & Regional Leaders:</strong> Evaluasi ulang portofolio harga produk Furniture guna memperbaiki margin.",
+                kpis: {
+                    title: "Performa Utama — Multi-Year Key Performance Indicators (KPIs) Furniture",
+                    items: [
+                        {
+                            label: "Historical Revenue",
+                            value: "$754,747",
+                            status: "success",
+                            note: "Volume penjualan sangat besar."
+                        },
+                        {
+                            label: "Accumulated Profit",
+                            value: "$19,730",
+                            status: "danger",
+                            note: "Profit akumulatif masih rendah."
+                        },
+                        {
+                            label: "Avg Multi-Year Margin",
+                            value: "2.75%",
+                            status: "danger",
+                            note: "Profitabilitas struktural lemah."
+                        },
+                        {
+                            label: "Avg Multi-Year Discount",
+                            value: "17.61%",
+                            status: "warning",
+                            note: "Diskon agresif konsisten tiap tahun."
+                        }
+                    ]
+                }
+            }
+        };
+
+        // ==========================================
+        // FUNGSI UPDATE OTOMATIS KE HTML (TERMASUK KPI CARD)
+        // ==========================================
+        function updateDashboardOverview(year) {
+            const data = executiveOverview[year];
+
+            if (data) {
+                // 1. Update Judul dan Deskripsi
+                document.getElementById("overviewTitle").innerHTML = data.title;
+                document.getElementById("overviewDescription").innerHTML = data.description;
+
+                // 2. Update Kotak Framework SCR
+                document.getElementById("setupBox").innerHTML = data.setup;
+                document.getElementById("conflictBox").innerHTML = data.conflict;
+                document.getElementById("resolutionBox").innerHTML = data.resolution;
+
+                // 3. Update Judul Seksi KPI
+                document.getElementById("kpiSectionTitle").innerText = data.kpis.title;
+
+                // 4. Generate Card KPI secara Dinamis dengan Warna Semantik Tailwind
+                const kpiContainer = document.getElementById("kpiContainer");
+                kpiContainer.innerHTML = ""; // Bersihkan isi lama
+
+                data.kpis.items.forEach(item => {
+                    // Tentukan warna border dan background berdasarkan status item
+                    let bgClass = "bg-slate-50 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700";
+                    let valueColor = "text-slate-900 dark:text-white";
+
+                    if (item.status === "success") {
+                        bgClass = "bg-emerald-50/50 dark:bg-emerald-950/10 border-emerald-200 dark:border-emerald-900";
+                        valueColor = "text-emerald-600 dark:text-emerald-400";
+                    } else if (item.status === "danger") {
+                        bgClass = "bg-rose-50/50 dark:bg-rose-950/10 border-rose-200 dark:border-rose-900";
+                        valueColor = "text-rose-600 dark:text-rose-400";
+                    } else if (item.status === "warning") {
+                        bgClass = "bg-amber-50/50 dark:bg-amber-950/10 border-amber-200 dark:border-amber-900";
+                        valueColor = "text-amber-600 dark:text-amber-400";
+                    }
+
+                    // Template HTML untuk masing-masing card KPI
+                    const cardHtml = `
+                <div class="${bgClass} p-4 rounded-xl border transition-all duration-300 shadow-sm flex flex-col justify-between">
+                    <div>
+                        <span class="text-xs font-medium text-slate-400 dark:text-slate-500 block">${item.label}</span>
+                        <span class="text-xl md:text-2xl font-black ${valueColor} block mt-1">${item.value}</span>
+                    </div>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400 mt-2 border-t border-slate-200/60 dark:border-slate-700/60 pt-1.5 block leading-tight">
+                        ${item.note}
+                    </span>
+                </div>
+            `;
+                    kpiContainer.insertAdjacentHTML("beforeend", cardHtml);
+                });
+            }
+        }
+
+        // Jalankan fungsi (contoh default menampilkan 'all' atau tahun tertentu)
+        updateDashboardOverview('all');
+
+
+        function updateWorstStates(year) {
+
+            const container =
+                document.getElementById("worstStates");
+
+            container.innerHTML = "";
+
+            (worstStatesData[year] || [])
+                .forEach(item => {
+
+                    container.innerHTML += `
+
+            <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl p-4 transition-colors duration-300">
+
+                <div class="flex items-center justify-between">
+
+                    <div>
+
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            State
+                        </p>
+
+                        <h3 class="font-bold text-slate-800 dark:text-white mt-1">
+                            ${item.state}
+                        </h3>
+                    </div>
+
+                    <div class="text-right">
+
+                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                            Loss
+                        </p>
+
+                        <h3 class="font-bold text-rose-500 mt-1">
+                            $${item.value.toLocaleString()}
+                        </h3>
+                    </div>
+
+                </div>
+
+            </div>
+            `;
+                });
+        }
+
+        function updateCharts(selectedYear) {
+
+            let filteredData = [];
+
+            // ==========================================
+            // UPDATE REGION CHART
+            // ==========================================
+
+            chartRegion.data.datasets[0].data =
+                dashboardData[selectedYear].region;
+
+            chartRegion.update();
+
+            // =====================
+            // FILTER TAHUN
+            // =====================
+            if (selectedYear === "all") {
+
+                filteredData = sheetData;
+
+            } else {
+
+                filteredData = sheetData.filter(
+                    row => row.Year == selectedYear
+                );
+            }
+
+            // =====================
+            // SETUP
+            // =====================
+            const setupData = filteredData.filter(
+                row => row.ChartType === "SETUP"
+            );
+
+            // ==========================
+            // UPDATE DATA
+            // ==========================
+
+            chartSetup.data.datasets[0].data =
+                setupData.map(row =>
+                    parseFloat(row.Sales || 0)
+                );
+
+            chartSetup.data.datasets[1].data =
+                setupData.map(row =>
+                    parseFloat(
+                        row.Margin.replace('%', '')
+                    ) || 0
+                );
+
+            // ==========================
+            // UPDATE BAR COLOR
+            // ==========================
+
+            chartSetup.data.datasets[0].backgroundColor = [
+
+                '#cbd5e1', // Technology
+
+                '#94a3b8', // Office Supplies
+
+                '#334155'  // Furniture (Fokus Utama)
+            ];
+
+            // ==========================
+            // UPDATE LINE COLOR
+            // ==========================
+
+            chartSetup.data.datasets[1].borderColor =
+                '#f43f5e';
+
+            chartSetup.data.datasets[1].backgroundColor =
+                '#f43f5e';
+
+            chartSetup.data.datasets[1].pointBackgroundColor =
+                '#f43f5e';
+
+            // ==========================
+            // RENDER ULANG
+            // ==========================
+
+            chartSetup.update();
+
+            // =====================
+            // TENSION
+            // =====================
+            const tensionData = filteredData.filter(
+                row => row.ChartType === "TENSION"
+            );
+
+            chartTension.data.datasets[0].data =
+                tensionData.map(row =>
+                    parseFloat(
+                        row.Margin.replace('%', '')
+                    ) || 0
+                );
+
+            // garis batas aman 15%
+            chartTension.data.datasets[1].data =
+                new Array(tensionData.length)
+                    .fill(15);
+
+            // =====================
+            // CLIMAX
+            // =====================
+            const climaxData = filteredData.filter(
+                row => row.ChartType === "CLIMAX"
+            );
+
+            chartClimax.data.labels =
+                climaxData.map(row =>
+                    row.Label
+                );
+
+            chartClimax.data.datasets[0].data =
+                climaxData.map(row =>
+                    parseFloat(row.Profit || 0)
+                );
+
+            // =====================
+            // DISCOUNT
+            // =====================
+            const discountData = filteredData.filter(
+                row => row.ChartType === "DISCOUNT"
+            );
+
+            chartDiscount.data.labels =
+                discountData.map(row =>
+                    row.Label
+                );
+
+            chartDiscount.data.datasets[0].data =
+                discountData.map(row =>
+                    parseFloat(
+                        row.Margin.replace('%', '')
+                    ) || 0
+                );
+
+            // =====================
+            // REGION (STATIC EXECUTIVE VIEW)
+            // =====================
+
+            chartRegion.data.labels = [
+                'West Region',
+                'South Region',
+                'East Region',
+                'Central Region'
+            ];
+
+            chartRegion.data.datasets[0].data =
+                dashboardData[selectedYear].region;
+
+            // ==========================================
+            // INSIGHT DINAMIS
+            // ==========================================
+
+            // ==========================================
+            // INSIGHT KHUSUS MULTI YEAR
+            // ==========================================
+
+            if (selectedYear === "all") {
+
+                document.getElementById("setupInsight").innerHTML = `
+                    <strong>Multi-Year Setup:</strong>
+                    Furniture secara konsisten menjadi penyumbang revenue terbesar perusahaan,
+                    namun rata-rata margin historis hanya bertahan di level rendah selama 4 tahun terakhir.
+                `;
+
+                document.getElementById("tensionInsight").innerHTML = `
+                    <strong>Multi-Year Tension:</strong>
+                    Profitabilitas Furniture menunjukkan pola fluktuatif
+                    dengan beberapa anomali musiman signifikan,
+                    terutama saat periode diskon agresif dan tekanan biaya operasional.
+                    Namun secara historis, margin tetap gagal menembus batas aman perusahaan,
+                    menandakan adanya masalah struktural yang konsisten.
+                `;
+
+                document.getElementById("climaxInsight").innerHTML = `
+                    <strong>Root Cause Historis:</strong>
+                    Sub-kategori Tables dan Bookcases menjadi sumber kebocoran profit terbesar
+                    secara konsisten dalam periode multi-tahun.
+                `;
+
+                document.getElementById("discountInsight").innerHTML = `
+                    <strong>Pola Diskon Historis:</strong>
+                    Diskon di atas 20% secara konsisten berkorelasi dengan margin negatif
+                    dan menjadi pemicu utama erosion profit Furniture.
+                `;
+
+                document.getElementById("regionInsight").innerHTML = `
+                    <h3 class="font-bold text-base mb-2">
+                        Region Paling Bermasalah (Historis)
+                    </h3>
+
+                    <p>
+                        <b>Central Region</b> menjadi wilayah dengan performa terburuk
+                        secara konsisten akibat kombinasi margin rendah dan diskon ekstrem.
+                    </p>
+                `;
+                return;
+            }
+
+
+            // SETUP
+            document.getElementById("setupInsight").innerHTML = `
+                <strong>Setup Insight:</strong>
+                Furniture menghasilkan revenue sebesar
+                <b>$${setupData[0]?.Sales || 0}</b>
+                dengan profit margin
+                <b>${setupData[0]?.Margin || 0}</b>.
+            `;
+
+            // TENSION
+            const worstMonth = tensionData.reduce(
+                (min, item) =>
+                    parseFloat(item.Margin) <
+                        parseFloat(min.Margin)
+                        ? item
+                        : min
+            );
+
+            document.getElementById("tensionInsight").innerHTML = `
+                <strong>Tension Insight:</strong>
+                Performa terburuk terjadi pada bulan
+                <b>${worstMonth.Label}</b>
+                dengan margin
+                <b>${worstMonth.Margin}</b>.
+            `;
+
+            // CLIMAX
+            const worstClimax = climaxData.reduce(
+                (min, item) =>
+                    parseFloat(item.Profit) <
+                        parseFloat(min.Profit)
+                        ? item
+                        : min
+            );
+
+            document.getElementById("climaxInsight").innerHTML = `
+                <strong>Akar Masalah:</strong>
+                Sub-kategori
+                <b>${worstClimax.Label}</b>
+                menghasilkan kerugian terbesar sebesar
+                <b>$${Number(worstClimax.Profit).toLocaleString()}</b>.
+            `;
+
+            // DISCOUNT
+            const worstDiscount = discountData.reduce(
+                (min, item) =>
+                    parseFloat(item.Margin) <
+                        parseFloat(min.Margin)
+                        ? item
+                        : min
+            );
+
+            document.getElementById("discountInsight").innerHTML = `
+                <strong>Dampak Diskon:</strong>
+                Diskon kategori
+                <b>${worstDiscount.Label}</b>
+                memberikan margin terburuk
+                <b>${worstDiscount.Margin}</b>.
+            `;
+
+            // REGION
+            const regionLabels = [
+                'West Region',
+                'South Region',
+                'East Region',
+                'Central Region'
+            ];
+
+            const regionValues =
+                dashboardData[selectedYear].region;
+
+            const minValue =
+                Math.min(...regionValues);
+
+            const worstIndex =
+                regionValues.indexOf(minValue);
+
+            const worstRegion = {
+                Label: regionLabels[worstIndex],
+                Profit: minValue
+            };
+
+            document.getElementById("regionInsight").innerHTML = `
+                <h3 class="font-bold text-base mb-2">
+                    Region Paling Bermasalah
+                </h3>
+
+                <p>
+                    Wilayah
+                    <b>${worstRegion.Label}</b>
+                    mengalami profit terburuk sebesar
+                    <b>$${Number(worstRegion.Profit).toLocaleString()}</b>.
+                    Perlu evaluasi distribusi dan strategi diskon.
+                </p>
+            `;
+
+            // RESOLUTION
+            document.getElementById("resolutionInsight").innerHTML = `
+                <div class="bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900 p-5 rounded-xl border border-rose-200">
+                    <div class="font-semibold mb-2 text-slate-800 dark:text-white">
+                        🔒 Pembatasan Diskon
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        Fokus pada kategori
+                        <b>${worstDiscount.Label}</b>
+                        untuk mengurangi kebocoran profit.
+                    </p>
+                </div>
+
+                <div class="bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-5 rounded-xl border border-amber-200">
+                   <div class="font-semibold mb-2 text-slate-800 dark:text-white">
+                        🚚 Audit Region
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        Prioritaskan audit operasional pada region
+                        <b>${worstRegion.Label}</b>.
+                    </p>
+                </div>
+
+                <div class="bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900 p-5 rounded-xl border border-emerald-200">
+                    <div class="font-semibold mb-2 text-slate-800 dark:text-white">
+                        🎯 Fokus Produk
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        Optimalkan penjualan kategori profit tinggi
+                        dan evaluasi kategori
+                        <b>${worstClimax.Label}</b>.
+                    </p>
+                </div>
+            `;
+
+            // ==========================
+            // DATA TABLE REGION PER YEAR
+            // ==========================
+            const regionYearData = {
+
+                2023: [
+                    {
+                        region: "West",
+                        revenue: "$52,684.30",
+                        profit: "+$3,183.80",
+                        margin: "6.04%",
+                        discount: "12.63%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "South",
+                        revenue: "$26,968.00",
+                        profit: "+$4,000.58",
+                        margin: "14.83%",
+                        discount: "9.92%",
+                        status: "Standar",
+                        danger: false
+                    },
+                    {
+                        region: "East",
+                        revenue: "$49,562.85",
+                        profit: "-$194.59",
+                        margin: "-0.39%",
+                        discount: "16.59%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    },
+                    {
+                        region: "Central",
+                        revenue: "$32,909.66",
+                        profit: "-$1,105.22",
+                        margin: "-3.36%",
+                        discount: "33.68%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    }
+                ],
+
+                2024: [
+                    {
+                        region: "West",
+                        revenue: "$58,609.60",
+                        profit: "+$3,348.11",
+                        margin: "5.71%",
+                        discount: "13.05%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "South",
+                        revenue: "$24,103.81",
+                        profit: "+$208.61",
+                        margin: "0.87%",
+                        discount: "12.26%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "East",
+                        revenue: "$54,024.83",
+                        profit: "-$45.71",
+                        margin: "-0.08%",
+                        discount: "15.64%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    },
+                    {
+                        region: "Central",
+                        revenue: "$35,592.05",
+                        profit: "-$231.04",
+                        margin: "-0.65%",
+                        discount: "27.39%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    }
+                ],
+
+                2025: [
+                    {
+                        region: "West",
+                        revenue: "$75,230.71",
+                        profit: "+$2,891.52",
+                        margin: "3.84%",
+                        discount: "14.24%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "South",
+                        revenue: "$27,921.44",
+                        profit: "+$3,146.42",
+                        margin: "11.27%",
+                        discount: "10.76%",
+                        status: "Standar",
+                        danger: false
+                    },
+                    {
+                        region: "East",
+                        revenue: "$46,990.79",
+                        profit: "+$1,431.22",
+                        margin: "3.05%",
+                        discount: "15.26%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "Central",
+                        revenue: "$50,836.79",
+                        profit: "-$252.93",
+                        margin: "-0.50%",
+                        discount: "29.43%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    }
+                ],
+
+                2026: [
+                    {
+                        region: "West",
+                        revenue: "$74,155.12",
+                        profit: "+$2,892.83",
+                        margin: "3.90%",
+                        discount: "12.40%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "South",
+                        revenue: "$38,305.43",
+                        profit: "-$584.40",
+                        margin: "-1.53%",
+                        discount: "14.50%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    },
+                    {
+                        region: "East",
+                        revenue: "$61,653.23",
+                        profit: "+$2,253.82",
+                        margin: "3.66%",
+                        discount: "14.74%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "Central",
+                        revenue: "$45,199.15",
+                        profit: "-$1,213.01",
+                        margin: "-2.68%",
+                        discount: "29.15%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    }
+                ],
+
+                all: [
+                    {
+                        region: "West",
+                        revenue: "$260,679",
+                        profit: "+$12,316",
+                        margin: "4.72%",
+                        discount: "13.08%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "South",
+                        revenue: "$117,298",
+                        profit: "+$6,771",
+                        margin: "5.77%",
+                        discount: "11.86%",
+                        status: "Standar",
+                        danger: false
+                    },
+                    {
+                        region: "East",
+                        revenue: "$212,231",
+                        profit: "+$3,444",
+                        margin: "1.62%",
+                        discount: "15.56%",
+                        status: "Kebocoran Laba",
+                        danger: false
+                    },
+                    {
+                        region: "Central",
+                        revenue: "$164,537",
+                        profit: "-$2,801",
+                        margin: "-1.70%",
+                        discount: "29.91%",
+                        status: "Kritis / Diskon Ekstrem",
+                        danger: true
+                    }
+                ],
+            };
+            function updateRegionTable(year) {
+
+                const tbody =
+                    document.getElementById("regionTableBody");
+
+                tbody.innerHTML = "";
+
+                (regionYearData[year] || []).forEach(item => {
+
+                    const row = `
+                        <tr class="${item.danger
+                            ? 'bg-rose-50/40 dark:bg-rose-950/20 hover:bg-rose-50 dark:hover:bg-rose-900/30'
+                            : 'hover:bg-slate-50 dark:hover:bg-slate-800/50'} transition-colors duration-300">
+
+                            <td class="p-3 font-medium ${item.danger ? 'text-rose-700' : ''}">
+                                ${item.region}
+                            </td>
+
+                            <td class="p-3">
+                                ${item.revenue}
+                            </td>
+
+                           <td class="p-3 font-semibold ${item.danger
+                            ? 'text-rose-600 dark:text-rose-300'
+                            : 'text-emerald-600 dark:text-emerald-300'}">
+                                ${item.profit}
+                            </td>
+
+                            <td class="p-3 font-semibold ${item.danger
+                            ? 'text-rose-600 dark:text-rose-300'
+                            : 'text-emerald-600 dark:text-emerald-300'}">
+                                ${item.margin}
+                            </td>
+
+                            <td class="p-3">
+                                ${item.discount}
+                            </td>
+
+                            <td class="p-3">
+                                <span class="px-2 py-1 rounded-lg text-xs font-medium
+                                    ${item.danger
+                            ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
+                            : 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'}">
+                                    ${item.status}
+                                </span>
+                            </td>
+                        </tr>
+                        `;
+
+                    tbody.innerHTML += row;
+                });
+            }
+
+            // =====================
+            // UPDATE CHART
+            // =====================
+            chartSetup.update();
+            chartTension.update();
+            chartClimax.update();
+            chartDiscount.update();
+            chartRegion.update();
+
+            // ==========================================
+            // OVERVIEW EXECUTIVE SUMMARY DINAMIS
+            // ==========================================
+
+            const overview =
+                executiveOverview[selectedYear];
+
+            if (overview) {
+
+                document.getElementById(
+                    "overviewTitle"
+                ).innerText =
+                    overview.title;
+
+                document.getElementById(
+                    "overviewDescription"
+                ).innerHTML =
+                    overview.description;
+
+                document.getElementById(
+                    "setupBox"
+                ).innerHTML =
+                    overview.setup;
+
+                document.getElementById(
+                    "conflictBox"
+                ).innerHTML =
+                    overview.conflict;
+
+                document.getElementById(
+                    "resolutionBox"
+                ).innerHTML =
+                    overview.resolution;
+            }
+
+            updateRegionTable(selectedYear);
+            updateWorstStates(selectedYear);
+        }
+
+        const SHEET_API =
+            'https://opensheet.elk.sh/16qkf37-t2-ygSvOdzEvPSxRmolf8OSsre4wUKJhTB_k/Sheet2';
+
+        let sheetData = [];
+
+        async function loadSheetData() {
+
+            const response =
+                await fetch(SHEET_API);
+
+            sheetData =
+                await response.json();
+
+            console.log(sheetData);
+
+            updateCharts("2025");
+        }
+
+        loadSheetData();
+
+        function updateChartTheme() {
+
+            const isDark =
+                html.classList.contains("dark");
+
+            const textColor =
+                isDark ? "#cbd5e1" : "#475569";
+
+            const gridColor =
+                isDark
+                    ? "rgba(255,255,255,0.08)"
+                    : "rgba(148,163,184,0.12)";
+
+            [
+                chartSetup,
+                chartTension,
+                chartClimax,
+                chartDiscount,
+                chartRegion
+            ].forEach(chart => {
+
+                if (chart.options.plugins?.legend?.labels) {
+                    chart.options.plugins.legend.labels.color =
+                        textColor;
+                }
+
+                Object.values(chart.options.scales || {})
+                    .forEach(scale => {
+
+                        if (scale.ticks) {
+                            scale.ticks.color =
+                                textColor;
+                        }
+
+                        if (scale.title) {
+                            scale.title.color =
+                                textColor;
+                        }
+
+                        if (scale.grid) {
+                            scale.grid.color =
+                                gridColor;
+                        }
+                    });
+
+                chart.update();
+            });
+        }
+
+        // =======================
+        // DARK / LIGHT MODE
+        // =======================
+
+        const themeToggle =
+            document.getElementById("themeToggle");
+
+        const html =
+            document.documentElement;
+
+        // ambil tema sebelumnya
+        if (localStorage.getItem("theme") === "dark") {
+
+            html.classList.add("dark");
+
+            themeToggle.innerHTML =
+                "☀️ Light";
+        } else {
+            html.classList.remove("dark");
+
+            themeToggle.innerHTML =
+                "🌙 Dark";
+        }
+
+        themeToggle.addEventListener(
+            "click",
+            () => {
+
+                html.classList.toggle("dark");
+
+                const isDark =
+                    html.classList.contains("dark");
+
+                localStorage.setItem(
+                    "theme",
+                    isDark ? "dark" : "light"
+                );
+
+                themeToggle.innerHTML =
+                    isDark
+                        ? "☀️ Light"
+                        : "🌙 Dark";
+
+                updateChartTheme();
+            }
+        );
+
+    </script>
+</body>
+
+</html>
